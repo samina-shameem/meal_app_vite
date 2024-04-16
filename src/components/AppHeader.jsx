@@ -7,6 +7,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Container } from "react-bootstrap";
+import Alert from "react-bootstrap/Alert";
 
 function AppHeader({ setSearchWord }) {
   const [query, setQuery] = useState("");
@@ -27,36 +28,36 @@ function AppHeader({ setSearchWord }) {
     const newValue = event.target.value;
 
     //reset error message after the change
-    if (query !== "") { 
-        setkeywordError("");
+    if (query !== "") {
+      setkeywordError("");
     }
     setQuery(newValue);
   };
 
   return (
-    <Navbar className="bg-body-tertiary justify-content-between">
-      <Container>
-        <Navbar.Brand>Meal-App</Navbar.Brand>
-        <Col xs="auto">
-          <Row>
-            <Col xs="auto">
-              <Form.Control
-                type="text"
-                placeholder="Dish name"
-                className="mr-sm-2"
-                onChange={handleChange}
-              />
-            </Col>
-            <Col xs="auto">
-              <Button onClick={handleSearch}>Search</Button>
-            </Col>
-          </Row>
-          <Row>
-            {keywordError && <Alert variant="warning">{keywordError}</Alert>}
-          </Row>
-        </Col>
-      </Container>
-    </Navbar>
+    <>
+      <Navbar className="bg-body-tertiary justify-content-between">
+        <Container>
+          <Navbar.Brand>Meal-App</Navbar.Brand>
+          <Col xs="auto">
+            <Row>
+              <Col xs="auto">
+                <Form.Control
+                  type="text"
+                  placeholder="Dish name"
+                  className="mr-sm-2"
+                  onChange={handleChange}
+                />
+              </Col>
+              <Col xs="auto">
+                <Button onClick={handleSearch}>Search</Button>
+              </Col>
+            </Row>
+          </Col>
+        </Container>
+      </Navbar>
+      {keywordError && <Alert variant="warning">{keywordError}</Alert>}
+    </>
   );
 }
 
