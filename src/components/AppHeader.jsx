@@ -10,37 +10,51 @@ import { Container } from "react-bootstrap";
 
 function AppHeader({ setSearchWord }) {
   const [query, setQuery] = useState("");
+  const [keywordError, setkeywordError] = useState(null);
 
   const handleSearch = (event) => {
     event.preventDefault();
     // check if empty
     if (query === "") {
+      setkeywordError("Search word is empty");
       return;
     }
+    //reset error message after the change
+    setkeywordError("");
     setSearchWord(query);
   };
   const handleChange = (event) => {
     const newValue = event.target.value;
+
+    //reset error message after the change
+    if (query !== "") { 
+        setkeywordError("");
+    }
     setQuery(newValue);
   };
 
   return (
     <Navbar className="bg-body-tertiary justify-content-between">
       <Container>
-        <Navbar.Brand href="#home">Meal-App</Navbar.Brand>
-        <Row>
-          <Col xs="auto">
-            <Form.Control
-              type="text"
-              placeholder="Dish name"
-              className="mr-sm-2"
-              onChange={handleChange}
-            />
-          </Col>
-          <Col xs="auto">
-            <Button onClick={handleSearch}>Search</Button>
-          </Col>
-        </Row>
+        <Navbar.Brand>Meal-App</Navbar.Brand>
+        <Col xs="auto">
+          <Row>
+            <Col xs="auto">
+              <Form.Control
+                type="text"
+                placeholder="Dish name"
+                className="mr-sm-2"
+                onChange={handleChange}
+              />
+            </Col>
+            <Col xs="auto">
+              <Button onClick={handleSearch}>Search</Button>
+            </Col>
+          </Row>
+          <Row>
+            {keywordError && <Alert variant="warning">{keywordError}</Alert>}
+          </Row>
+        </Col>
       </Container>
     </Navbar>
   );
