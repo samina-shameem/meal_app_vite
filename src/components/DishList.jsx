@@ -30,6 +30,7 @@ function DishList({ keyWord }) {
         })
         .catch((error) => {
           setFetchError(`There was a problem: ${error.message}`);
+          setDishes([])
         });
     }
   }, [keyWord]);
