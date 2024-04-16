@@ -31,7 +31,7 @@ function SingleDish({ dishID }) {
     <div>
       {fetchError && <Alert variant="warning">{fetchError}</Alert>}
       {!fetchError && (
-        <Card style={{ width: "18rem" }}>
+        <Card style={{ width: "36rem" }}>
           <Card.Img variant="top" src={dish && dish.strMealThumb} />
           <Card.Body>
             <Card.Title>{dish && dish.strMeal}</Card.Title>
