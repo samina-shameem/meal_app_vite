@@ -1,3 +1,4 @@
+// DishList.js
 import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import Alert from "react-bootstrap/Alert";
@@ -9,9 +10,9 @@ function DishList({ keyWord }) {
   const [dishes, setDishes] = useState([]);
   const [fetchError, setFetchError] = useState(null);
   const [clickedDishId, setClickedDishId] = useState(null);
-  const [numColumns, setNumColumns] = useState(3); // Initial number of columns
-  const dishRefs = useRef([]); // Ref for storing dish item refs
-  const containerRef = useRef(null); // Ref for the dish list container
+  const [numColumns, setNumColumns] = useState(3);
+  const dishRefs = useRef([]);
+  const containerRef = useRef(null);
 
   useEffect(() => {
     if (keyWord !== null && keyWord !== "") {
@@ -42,29 +43,34 @@ function DishList({ keyWord }) {
     const handleResize = () => {
       if (containerRef.current) {
         const containerWidth = containerRef.current.offsetWidth;
-        // Calculate the number of columns based on container width
         if (clickedDishId) {
-          // If a dish is clicked, reduce the number of columns to 3
           setNumColumns(3);
         } else {
-          setNumColumns(6);          
+          if (containerWidth < 576) {
+            setNumColumns(1);
+          } else if (containerWidth < 768) {
+            setNumColumns(2);
+          } else if (containerWidth < 992) {
+            setNumColumns(3);
+          } else if (containerWidth < 1200) {
+            setNumColumns(4);
+          } else {
+            setNumColumns(6);
+          }
         }
       }
     };
 
-    handleResize(); // Call handleResize initially
-    window.addEventListener("resize", handleResize); // Add resize event listener
+    handleResize();
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener("resize", handleResize); // Cleanup on unmount
+      window.removeEventListener("resize", handleResize);
     };
-  }, [clickedDishId]); // Add clickedDishId to the dependency array
+  }, [clickedDishId]);
 
-  // Function to handle clicking on a dish item
   const handleDishClick = (idMeal) => {
     setClickedDishId(idMeal);
-    // Perform additional actions as needed
-    // For example, you can focus on the clicked dish item
     const clickedDishRef = dishRefs.current[idMeal];
     if (clickedDishRef) {
       clickedDishRef.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -77,14 +83,14 @@ function DishList({ keyWord }) {
       <Row>
         <Col>
           <Container style={{ maxHeight: "100vh", overflowY: "auto" }}>
-            <Row lg={numColumns}> {/* Displaying dishes dynamically based on the number of columns */}
+            <Row lg={numColumns}>
               {dishes.map((dish) => (
                 <Col key={dish.idMeal} className="mb-3">
                   <div
-                    ref={(el) => (dishRefs.current[dish.idMeal] = el)} // Assign ref to the dish item
-                    onClick={() => handleDishClick(dish.idMeal)} // Handle click event
+                    ref={(el) => (dishRefs.current[dish.idMeal] = el)}
+                    onClick={() => handleDishClick(dish.idMeal)}
                   >
-                    <DishDetails dish={dish} />
+                    <DishDetails dish={dish} clicked={clickedDishId === dish.idMeal} />
                   </div>
                 </Col>
               ))}
