@@ -36,7 +36,7 @@ function AppHeader({ setSearchWord }) {
 
   return (
     <>
-      <Navbar className="bg-body-tertiary justify-content-between">
+      <Navbar className="bg-body-tertiary justify-content-between" fixed="top">
         <Container>
           <Navbar.Brand>Meal-App</Navbar.Brand>
           <Col xs="auto">
