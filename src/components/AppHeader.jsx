@@ -1,4 +1,3 @@
-// AppHeader.js
 import React, { useState } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Form from "react-bootstrap/Form";
@@ -56,7 +55,9 @@ function AppHeader({ setSearchWord }) {
           </Col>
         </Container>
       </Navbar>
-      {keywordError && <Alert variant="warning">{keywordError}</Alert>}
+      <div style={{ marginTop: "56px" }}>
+        {keywordError && <Alert variant="warning">{keywordError}</Alert>}
+      </div>
     </>
   );
 }
